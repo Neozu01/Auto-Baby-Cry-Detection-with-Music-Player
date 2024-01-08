@@ -31,7 +31,7 @@ class PriorityQueue(object):
             exit()
 
 def load_music():
-    wb = xl.load_workbook("C:/Users/ashu_/PycharmProjects/Baby_Cry_Detection/Music.xlsx")
+    wb = xl.load_workbook("D:/Github/Baby_cry_detection_with_music_player/Music.xlsx")
 
     sheet = wb.active
     pq = PriorityQueue()

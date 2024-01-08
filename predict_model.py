@@ -11,30 +11,52 @@ import noisereduce as nr
 from scipy.io import wavfile
 from shutil import move
 
+np.float = float 
+
 def move_files(flag):
 
     print("Moving Files")
     if flag == 1:
 
-        for i in range(1,6):
-            move("C:/Users/ashu_/PycharmProjects/Baby_Cry_Detection/Baby_Cry"+str(i)+".wav",
-                 "C:/Users/ashu_/PycharmProjects/Baby_Cry_Detection/Baby_laugh/Baby_Cry"+str(i)+".wav")
+        for i in range(1, 6):
+            move("D:/Github/Baby_cry_detection_with_music_player/belly_cry"+str(i)+".wav",
+                 "D:/Github/Baby_cry_detection_with_music_player/belly_pain/belly_cry"+str(i)+".wav")
+            
+    elif flag == 2:
+        for i in range(1, 6):
+            move("D:/Github/Baby_cry_detection_with_music_player/burping_cry" + str(i) + ".wav",
+                 "D:/Github/Baby_cry_detection_with_music_player/burping/burping_cry" + str(i) + ".wav")
+            
+    elif flag == 3:
+        for i in range(1, 6):
+            move("D:/Github/Baby_cry_detection_with_music_player/discomfort_cry" + str(i) + ".wav",
+                 "D:/Github/Baby_cry_detection_with_music_player/discomfort/discomfort_cry" + str(i) + ".wav")
+            
+    elif flag == 4:
+        for i in range(1, 6):
+            move("D:/Github/Baby_cry_detection_with_music_player/hungry_cry" + str(i) + ".wav",
+                 "D:/Github/Baby_cry_detection_with_music_player/hungry/hungry_cry" + str(i) + ".wav")
 
+    elif flag == 5:
+        for i in range(1, 6):
+            move("D:/Github/Baby_cry_detection_with_music_player/tired_cry" + str(i) + ".wav",
+                 "D:/Github/Baby_cry_detection_with_music_player/tired/tired_cry" + str(i) + ".wav")
+            
     else:
         for i in range(1, 6):
-            move("C:/Users/ashu_/PycharmProjects/Baby_Cry_Detection/Silent_" + str(i) + ".wav",
-                 "C:/Users/ashu_/PycharmProjects/Baby_Cry_Detection/Silence/Silent_" + str(i) + ".wav")
+            move("D:/Github/Baby_cry_detection_with_music_player/silent_" + str(i) + ".wav",
+                 "D:/Github/Baby_cry_detection_with_music_player/silence/silent_" + str(i) + ".wav")
 
 
 def predict():
-    file = open("C:/Users/ashu_/PycharmProjects/Baby_Cry_Detection/AudioModel.pkl", "rb")
+    file = open("D:/Github/Baby_cry_detection_with_music_player/Model_RF1.pkl", "rb") # load model
     Model = pickle.load(file)
 
     # Sampling frequency
-    frequency = 44100
+    frequency = 8000
 
     # Recording duration in seconds
-    duration = 6
+    duration = 7
 
     # to record audio from
     # sound-device into a Numpy
@@ -52,9 +74,7 @@ def predict():
 
     # perform noise reduction
     reduced_noise = nr.reduce_noise(y=data, sr=rate)
-
     wavfile.write("New.wav", rate=rate, data=reduced_noise)
-
 
     filename = "New.wav"
     audio, sample_rate = librosa.load(filename, res_type='kaiser_fast')
@@ -62,10 +82,10 @@ def predict():
     mfccs_features = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
     mfccs_scaled_features = np.mean(mfccs_features.T, axis=0)
 
-
     mfccs_scaled_features = mfccs_scaled_features.reshape(1, -1)
 
     predicted_label = Model.predict(mfccs_scaled_features)
 
 
     return predicted_label, filename
+

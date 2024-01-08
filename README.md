@@ -11,8 +11,12 @@ A simple voice detection system which can be applied practically for designing a
 
 # Deployment
 
-Install all reuired libraries using following command:
+Install all required libraries using following command:
 
          pip install -r requirements.txt
   
          run Baby_cry_Detector_Music_Player.py
+
+         Ganti path directory di predict_model.py dan di Music_Player.py
+
+         Model udah ada ga perlu di training ulang.
